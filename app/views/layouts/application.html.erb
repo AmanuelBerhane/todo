@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Todo App</title>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag 'application' %>
+  </head>
+  <body>
+    <header>
+      <h1>Todo Application</h1>
+      <p>Visit count: <%= @visit_count %></p>
+      <% current_hour = Time.current.hour %>
+      <% greeting =
+        if current_hour >= 5 && current_hour < 12
+          "Good morning!"
+        elsif current_hour >= 12 && current_hour < 17
+          "Good afternoon!"
+        elsif current_hour >= 17 && current_hour < 21
+          "Good evening!"
+        else
+          "Good night!"
+        end
+      %>
+      <p><%= greeting %></p>
+      <p>You've visited <%= session[:visit_count] %> times (total)</p>
+      <% 
+        page_key = "page_visits_#{request.path}"
+        session[page_key] ||= 0
+        session[page_key] += 1
+      %>
+      <p>Visits to this page (<%= request.path %>): <%= session[page_key] %></p>
+      <% if session[:last_visited].present? %>
+        <% time_ago = time_ago_in_words(session[:last_visited]) %>
+        <p>Last visited: <%= time_ago %> ago</p>
+      <% else %>
+        <p>This is your first visit!</p>
+      <% end %>
+    </header>
+    <%= yield %>
+    </header>
+
+    <main>
+      <%= yield %>
+    </main>
+
+    <footer>
+      <p>Last visited: <%= session[:last_visited] %></p>
+    </footer>
+  </body>
+</html>
