@@ -21,4 +21,5 @@ Things you may want to cover:
 
 * Deployment instructions
 
-* ...
+
+  This is the readme for a todo app made by ruby on rails
